@@ -42,6 +42,7 @@ public class TestList {
     public void VerifyNewCardOnList() {
 //CardsPojo cardsResults=rsplist.as(CardsPojo.class);
         //String cardId=cardsResults.getName();
+       // hola
     }
 
 
