@@ -76,13 +76,12 @@ public class BoardPage extends BasePage {
         dropdown.findElement(By.xpath("//option[. = 'Done']")).click();
         driver.findElement(By.xpath("//*[@id='chrome-container']//input[@value='Move']")).click();
     }
-    public String isCardInDone(String boardName, String cardName){
-        return driver.findElement(By.xpath("//textarea[contains(text(),'"+boardName+"')]/../..//span[contains(text(),'"+cardName+"')]")).getText();
+
+
+    public String isCardInList(String listName, String cardName){
+       return driver.findElement(By.xpath("//textarea[contains(text(),'"+listName+"')]/../..//span[contains(text(),'"+cardName+"')]")).getText();
     }
 
-    public String isCardInProgress(String boardName, String cardName){
-       return driver.findElement(By.xpath("//textarea[contains(text(),'"+boardName+"')]/../..//span[contains(text(),'"+cardName+"')]")).getText();
-    }
 
 
 

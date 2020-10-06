@@ -1,7 +1,9 @@
 package UI.Test;
 
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import UI.Pages.*;
+import UI.UIProperties;
 import UI.Utils.BrowserFactory;
 import org.junit.After;
 import org.junit.Assert;
@@ -23,15 +25,12 @@ public class UITest {
 		lauchPage.clickLogin();
 		wait(5000);
 		AuthenticationPage LoginPage = PageFactory.initElements(driver, AuthenticationPage.class);
-		LoginPage.logIn("laura.castillo@usantoto.edu.co", "Bladimir55");
+		Properties prop = new Properties();
+		LoginPage.logIn(UIProperties.user,UIProperties.password);
 
 	}
 
-	@Test
-	public void authentication() {
-		HomePage home=PageFactory.initElements(driver, HomePage.class);
-		Assert.assertEquals("Boards", home.isLoginSuccesfull());
-	}
+
 	@Test
 	public void testSearch() {
 
@@ -64,7 +63,7 @@ public class UITest {
 		BoardPage board=PageFactory.initElements(driver, BoardPage.class);
 		board.createList("To do");
 		board.createCard("new card");
-		//Assert.assertTrue();
+		Assert.assertEquals("new card",board.isCardInList("To do","new card"));
 
 	}
 	@Test
@@ -78,7 +77,7 @@ public class UITest {
 		board.createList("Done");
 		board.createCard("new card");
         board.moveCardtoInProgress();
-        Assert.assertEquals("new card",board.isCardInProgress("In Progress","new card"));
+        Assert.assertEquals("new card",board.isCardInList("In Progress","new card"));
 	}
 	@Test
 	public void moveCardToDone() {
@@ -91,16 +90,8 @@ public class UITest {
 		board.createList("Done");
 		board.createCard("new card");
 		board.moveCardtoInDone();
-		Assert.assertEquals("new card",board.isCardInDone("Done","new card"));
+		Assert.assertEquals("new card",board.isCardInList("Done","new card"));
 	}
-
-	public void signUp()  {
-		LauchPage lauchPage=PageFactory.initElements(driver,LauchPage.class);
-		lauchPage.clickSignUp();
-		SignUpPage page = PageFactory.initElements(driver, SignUpPage.class);
-		page.enterMail("andreanccwe@hotmail.com");
-		Assert.assertTrue(page.createUserWithoutPassword("Andrea"));
-}
 
 	@After
 	public void tearDown() {
