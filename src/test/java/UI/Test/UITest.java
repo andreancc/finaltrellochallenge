@@ -78,7 +78,20 @@ public class UITest {
 		board.createList("Done");
 		board.createCard("new card");
         board.moveCardtoInProgress();
-        wait(60);
+        Assert.assertEquals("new card",board.isCardInProgress("In Progress","new card"));
+	}
+	@Test
+	public void moveCardToDone() {
+
+		HomePage home=PageFactory.initElements(driver, HomePage.class);
+		home.createBoard("exampleBoard3");
+		BoardPage board=PageFactory.initElements(driver, BoardPage.class);
+		board.createList("To do");
+		board.createList("In Progress");
+		board.createList("Done");
+		board.createCard("new card");
+		board.moveCardtoInDone();
+		Assert.assertEquals("new card",board.isCardInDone("Done","new card"));
 	}
 
 	public void signUp()  {

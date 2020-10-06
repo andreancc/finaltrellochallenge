@@ -27,10 +27,7 @@ public class BoardPage extends BasePage {
     private WebElement cardOptions;
     @FindBy (css =".js-move-card > .quick-card-editor-buttons-item-text")
     private WebElement moveButton;
-    @FindBy (css =".js-select-list")
-    private WebElement comboList;
-    @FindBy (css =".js-submit")
-    private WebElement moveSubmitButton;
+
 
 
     public BoardPage(WebDriver driver) {
@@ -52,7 +49,7 @@ public class BoardPage extends BasePage {
         cardTitle.sendKeys(Keys.ENTER);
     }
     public void moveCardtoInProgress() {
-        WebDriverWait wait = new WebDriverWait(driver, 50);
+        WebDriverWait wait = new WebDriverWait(driver, 60);
         Actions actions = new Actions(driver);
         wait.until(ExpectedConditions.visibilityOf(cardOptions));
         actions.contextClick(cardOptions).perform();
@@ -63,9 +60,30 @@ public class BoardPage extends BasePage {
         driver.findElement(By.cssSelector(".js-select-list")).click();
         WebElement dropdown = driver.findElement(By.cssSelector(".js-select-list"));
         dropdown.findElement(By.xpath("//option[. = 'In Progress']")).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("js-select-list"))).click();
         driver.findElement(By.xpath("//*[@id='chrome-container']//input[@value='Move']")).click();
     }
+    public void moveCardtoInDone() {
+        WebDriverWait wait = new WebDriverWait(driver, 60);
+        Actions actions = new Actions(driver);
+        wait.until(ExpectedConditions.visibilityOf(cardOptions));
+        actions.contextClick(cardOptions).perform();
+        wait.until(ExpectedConditions.visibilityOf(moveButton)).click();
+        WebElement element = driver.findElement(By.cssSelector(".js-move-card > .quick-card-editor-buttons-item-text"));
+        Actions builder = new Actions(driver);
+        builder.moveToElement(element).perform();
+        driver.findElement(By.cssSelector(".js-select-list")).click();
+        WebElement dropdown = driver.findElement(By.cssSelector(".js-select-list"));
+        dropdown.findElement(By.xpath("//option[. = 'Done']")).click();
+        driver.findElement(By.xpath("//*[@id='chrome-container']//input[@value='Move']")).click();
+    }
+    public String isCardInDone(String boardName, String cardName){
+        return driver.findElement(By.xpath("//textarea[contains(text(),'"+boardName+"')]/../..//span[contains(text(),'"+cardName+"')]")).getText();
+    }
+
+    public String isCardInProgress(String boardName, String cardName){
+       return driver.findElement(By.xpath("//textarea[contains(text(),'"+boardName+"')]/../..//span[contains(text(),'"+cardName+"')]")).getText();
+    }
+
 
 
     public String isTheListCreated(String nameList) {
