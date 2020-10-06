@@ -3,8 +3,6 @@ package API.POJOS;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import java.util.Arrays;
-
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder({"name","id","url"})
 public class BoardPojo {

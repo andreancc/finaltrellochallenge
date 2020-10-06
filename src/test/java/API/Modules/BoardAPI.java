@@ -22,22 +22,20 @@ public class BoardAPI {
     }
     public Response getmyBoard() {
         Response getresponse =
-                given().log().uri().spec(requestSpec)
+                given().spec(requestSpec)
                         .when()
                         .get(URLs.myBoardsEndpoint)
                         .andReturn();
         return getresponse;
     }
     public Response createBoard(String name) {
-        Response ret = given()
-                .log().uri().spec(requestSpec)
+        Response ret = given().spec(requestSpec)
                 .queryParam("name",name)
                 .post(URLs.createBoardsEndpoint).andReturn();
         return ret;
     }
     public Response deleteBoard(String id) {
         Response ret = given()
-                .log().uri()
                 .spec(requestSpec)
                 .pathParam("id",id).when()
                 .delete( URLs.deleteBoardsEndpoint).andReturn();
@@ -45,10 +43,10 @@ public class BoardAPI {
     }
     public Response getListinBoard(String boardId) {
         Response getresponse =
-                given().log().uri().spec(requestSpec)
+                given().spec(requestSpec)
                         .pathParam("id",boardId)
                         .when()
-                        .get(URLs.getListinBoard)
+                        .get(URLs.getListonBoard)
                         .andReturn();
         return getresponse;
     }

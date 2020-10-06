@@ -1,7 +1,8 @@
-package com.usta.tests;
+package UI.Test;
 
 import java.util.concurrent.TimeUnit;
-
+import UI.Pages.*;
+import UI.Utils.BrowserFactory;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -9,57 +10,48 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.usta.pages.AuthenticationPage;
-import com.usta.pages.BoardPage;
-import com.usta.pages.HomePage;
-import com.usta.pages.SignUpPage;
-import com.usta.utils.BrowserFactory;
 
 public class UITest {
 	private WebDriver driver;
 
 	@Before
 	public void setUp() {
-		driver = BrowserFactory.getBrowser("Chrome");
+		driver = BrowserFactory.getBrowser("Firefox");
 		driver.get("https://trello.com/");
-
-	}
-
-
-	public void authentication() {
-
-		driver.findElement(By.linkText("Log In")).click();
+		LauchPage lauchPage=PageFactory.initElements(driver,LauchPage.class);
+		lauchPage.clickLogin();
 		wait(5000);
-		AuthenticationPage page = PageFactory.initElements(driver, AuthenticationPage.class);
-		page.logIn("laura.castillo@usantoto.edu.co", "Bladimir55");
-		WebDriverWait wait = new WebDriverWait(driver, 30);
-		wait.until(ExpectedConditions
-				.visibilityOfElementLocated(By.xpath("//*[@id='content']//span[contains(text(),'Boards')]")));
-		String actual = driver.findElement(By.xpath("//*[@id='content']//span[contains(text(),'Boards')]")).getText();
-		Assert.assertEquals("Boards", actual);
+		AuthenticationPage LoginPage = PageFactory.initElements(driver, AuthenticationPage.class);
+		LoginPage.logIn("laura.castillo@usantoto.edu.co", "Bladimir55");
+
 	}
 
+	@Test
+	public void authentication() {
+		HomePage home=PageFactory.initElements(driver, HomePage.class);
+		Assert.assertEquals("Boards", home.isLoginSuccesfull());
+	}
+	@Test
+	public void testSearch() {
+//		driver.findElement(By.linkText("Log In")).click();
+//		AuthenticationPage page = PageFactory.initElements(driver, AuthenticationPage.class);
+//		page.logIn("laura.castillo@usantoto.edu.co", "Bladimir55");
+		wait(10000);
+		HomePage home=PageFactory.initElements(driver, HomePage.class);
+		home.createBoard("exampleBoardForSearching");
+		Assert.assertTrue("We can not find the board",home.search("exampleBoardForSearching"));
+	}
+	@Test
 	public void createBoard() {
 
-		driver.findElement(By.linkText("Log In")).click();
-		wait(5000);
-		AuthenticationPage page = PageFactory.initElements(driver, AuthenticationPage.class);
-		page.logIn("laura.castillo@usantoto.edu.co", "Bladimir55");
-		wait(5000);
 		HomePage home=PageFactory.initElements(driver, HomePage.class);
 		home.createBoard("example");
 	}
-	
+
+	@Test
 	public void createList() {
 
-		driver.findElement(By.linkText("Log In")).click();
-		wait(5000);
-		AuthenticationPage page = PageFactory.initElements(driver, AuthenticationPage.class);
-		page.logIn("laura.castillo@usantoto.edu.co", "Bladimir55");
-		wait(5000);
 		HomePage home=PageFactory.initElements(driver, HomePage.class);
 		home.createBoard("exampleBoard");
 		wait(10000);
@@ -71,29 +63,22 @@ public class UITest {
 	@Test
 	public void createCard() {
 
-		driver.findElement(By.linkText("Log In")).click();
-		wait(5000);
-		AuthenticationPage page = PageFactory.initElements(driver, AuthenticationPage.class);
-		page.logIn("laura.castillo@usantoto.edu.co", "Bladimir55");
-		wait(5000);
 		HomePage home=PageFactory.initElements(driver, HomePage.class);
-		home.createBoard("exampleBoard");
-		wait(10000);
+		home.createBoard("exampleBoard3");
 		BoardPage board=PageFactory.initElements(driver, BoardPage.class);
 		board.createList("To do");
-		Assert.assertEquals("To do", board.isTheListCreated("To do"));
+		board.createCard("new card");
+
 	}
 
-	
-	public void signUp() throws InterruptedException {
 
-		driver.findElement(By.linkText("Sign Up")).click();
-		wait(10000);
+	public void signUp()  {
+		LauchPage lauchPage=PageFactory.initElements(driver,LauchPage.class);
+		lauchPage.clickSignUp();
 		SignUpPage page = PageFactory.initElements(driver, SignUpPage.class);
-		page.enterMail("pedro444@gmail.com");
-		page.createUser("pedro", "password");
-		Thread.sleep(3000);
-	}
+		page.enterMail("andreanccwe@hotmail.com");
+		Assert.assertTrue(page.createUserWithoutPassword("Andrea"));
+}
 
 	@After
 	public void tearDown() {

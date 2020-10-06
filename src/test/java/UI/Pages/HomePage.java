@@ -1,4 +1,4 @@
-package com.usta.pages;
+package UI.Pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -8,22 +8,34 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class HomePage {
-	private WebDriver driver;
-	@FindBy(xpath  = "//span[contains(text(),'Create new board')]")
-	private WebElement newBoard;
+public class HomePage extends BasePage {
+    private WebDriver driver;
+    @FindBy(xpath = "//span[contains(text(),'Create new board')]")
+    private WebElement newBoard;
+    @FindBy(xpath = "//*[@id='content']//span[contains(text(),'Boards')]")
+    private WebElement boardLabel;
+    @FindBy(className ="subtle-input")
+	private WebElement boardTitle;
 
-	public HomePage(WebDriver driver) {
-		this.driver = driver;
-	}
+    public HomePage(WebDriver driver) {
 
-	public void createBoard(String tittle) {
-		newBoard.click();
-		WebDriverWait wait = new WebDriverWait(driver, 30);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("subtle-input")));
-		WebElement inputTittle = driver.findElement(By.className("subtle-input"));
-		inputTittle.sendKeys(tittle);
-		inputTittle.sendKeys(Keys.ENTER);
+        super(driver);
+        this.driver = driver;
 
-	}
+    }
+
+    public void createBoard(String tittle) {
+        WebDriverWait wait = new WebDriverWait(driver, 50);
+        wait.until(ExpectedConditions.visibilityOf(newBoard)).click();
+        wait.until(ExpectedConditions.visibilityOf(boardTitle)).sendKeys(tittle);
+        boardTitle.sendKeys(Keys.ENTER);
+
+    }
+
+    public String isLoginSuccesfull() {
+        WebDriverWait wait = new WebDriverWait(driver, 30);
+        return wait.until(ExpectedConditions
+                .visibilityOf(boardLabel)).getText();
+
+    }
 }

@@ -38,24 +38,6 @@ public class TestList {
         board.deleteBoard(boardID);
 
     }
-    @Test
-    public void VerifyNewCardOnList() {
-//CardsPojo cardsResults=rsplist.as(CardsPojo.class);
-        //String cardId=cardsResults.getName();
-       // hola
-    }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     public String CreatelistTogetId(){

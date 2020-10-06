@@ -19,16 +19,26 @@ public class CardsAPI {
                 .addQueryParam("token",EnvProperties.token)
                 .setBaseUri(URLs.theUrl).setContentType(ContentType.JSON).build();
     }
-    public Response getCards(String id) {
+    public Response getCards(String idcard) {
         Response getresponse =
                 given().log().uri().spec(requestSpec)
-                        .pathParam("id",id)
+                        .pathParam("id",idcard)
                         .when()
-                        .get(URLs.getCards)
+                        .get(URLs.getCardsperid)
                         .andReturn();
         System.out.println(getresponse);
         return getresponse;
     }
 
-
+    public Response createCards(String id,String namecard) {
+        Response getresponse =
+                given().log().uri().spec(requestSpec)
+                        .queryParam("idList",id)
+                        .queryParam("name",namecard)
+                        .when()
+                        .post(URLs.createCards)
+                        .andReturn();
+        System.out.println(getresponse);
+        return getresponse;
+    }
 }

@@ -46,5 +46,26 @@ public class TestsBoard {
 
     }
 
+    @Test
+    public void checkAllBoardDeleted() {
+        String newboardtodelete="newboard to delete";
+        String newboardtodelete2="newboard to delete";
+        board.createBoard(newboardtodelete);
+        board.createBoard(newboardtodelete2);
+        Response listofboards = board.getmyBoard();
+        BoardPojo[] results = listofboards.as(BoardPojo[].class);
+        for (int i = 0; i < results.length; i++) {
+            board.deleteBoard(results[i].getId());
+        }
+        Response newlistofboards = board.getmyBoard();
+        BoardPojo[] resultslist = newlistofboards.as(BoardPojo[].class);
+        boolean wasDeleted = true;
+        for (int i = 0; i < resultslist.length; i++) {
+            if (resultslist[i].getName().equals(newboardtodelete) || resultslist[i].getName().equals(newboardtodelete2)) {
+                             wasDeleted = false;
+            }
+        }
+        Assert.assertTrue("The boards were not deleted", wasDeleted);
 
+    }
 }

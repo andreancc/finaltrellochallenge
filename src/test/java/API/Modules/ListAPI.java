@@ -20,7 +20,7 @@ public class ListAPI {
     }
     public Response createList(String boardId,String name) {
         Response getresponse =
-                given().log().uri().spec(requestSpec)
+                given().spec(requestSpec)
                         .queryParam("idBoard",boardId)
                         .queryParam("name",name)
                         .when()
@@ -28,13 +28,12 @@ public class ListAPI {
                         .andReturn();
         return getresponse;
     }
-    public Response getList(String boardId,String name) {
+    public Response getList(String boardId) {
         Response getresponse =
-                given().log().uri().spec(requestSpec)
-                        .queryParam("idBoard",boardId)
-                        .queryParam("name",name)
+                given().spec(requestSpec)
+                        .pathParam("id",boardId)
                         .when()
-                        .post(URLs.createList)
+                        .get(URLs.getListonBoard)
                         .andReturn();
         return getresponse;
     }
