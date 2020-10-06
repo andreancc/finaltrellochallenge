@@ -34,10 +34,7 @@ public class UITest {
 	}
 	@Test
 	public void testSearch() {
-//		driver.findElement(By.linkText("Log In")).click();
-//		AuthenticationPage page = PageFactory.initElements(driver, AuthenticationPage.class);
-//		page.logIn("laura.castillo@usantoto.edu.co", "Bladimir55");
-		wait(10000);
+
 		HomePage home=PageFactory.initElements(driver, HomePage.class);
 		home.createBoard("exampleBoardForSearching");
 		Assert.assertTrue("We can not find the board",home.search("exampleBoardForSearching"));
@@ -54,7 +51,6 @@ public class UITest {
 
 		HomePage home=PageFactory.initElements(driver, HomePage.class);
 		home.createBoard("exampleBoard");
-		wait(10000);
 		BoardPage board=PageFactory.initElements(driver, BoardPage.class);
 		board.createList("To do");
 		Assert.assertEquals("To do", board.isTheListCreated("To do"));
@@ -68,9 +64,22 @@ public class UITest {
 		BoardPage board=PageFactory.initElements(driver, BoardPage.class);
 		board.createList("To do");
 		board.createCard("new card");
+		//Assert.assertTrue();
 
 	}
+	@Test
+	public void moveCardToInProgress() {
 
+		HomePage home=PageFactory.initElements(driver, HomePage.class);
+		home.createBoard("exampleBoard3");
+		BoardPage board=PageFactory.initElements(driver, BoardPage.class);
+		board.createList("To do");
+		board.createList("In Progress");
+		board.createList("Done");
+		board.createCard("new card");
+        board.moveCardtoInProgress();
+        wait(60);
+	}
 
 	public void signUp()  {
 		LauchPage lauchPage=PageFactory.initElements(driver,LauchPage.class);
